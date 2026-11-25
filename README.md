@@ -15,12 +15,12 @@ cd 15s09-research-assignment
 ## Open the notebook
 
 1. Install [Julia](https://julialang.org/downloads/) (1.10+ recommended).
-2. From this folder, activate the project and add packages:
+2. From this folder, activate the project and instantiate:
 
 ```julia
 using Pkg
 Pkg.activate(".")
-Pkg.instantiate()   # or Pkg.add(["JuMP", "Gurobi", "DataFrames", "CSV"])
+Pkg.instantiate()   # JuMP, HiGHS, DataFrames, CSV
 ```
 
 3. Launch Jupyter with the Julia kernel:
@@ -32,9 +32,15 @@ jupyter notebook assignment.ipynb
 
 Or open `assignment.ipynb` in VS Code / Cursor with the Julia extension.
 
-### Gurobi license
+### Solvers
 
-`Project.toml` lists **JuMP** and **Gurobi**. You need a valid Gurobi license on the machine that runs the solver cells (academic license is fine). Without Gurobi, you can still complete data and model-sketch tasks; mark solver cells as blocked in the checklist.
+**Layer 1** (plain LP) solves with **HiGHS** — no commercial license needed. Run the Layer 1 section near the top of `assignment.ipynb` to see optimal gas capacity $G^*$, the objective, and an hourly summary.
+
+**Gurobi** is optional for later layers. After installing the Optimizer and setting `GUROBI_HOME` / `PATH`:
+
+```julia
+julia> using Pkg; Pkg.add("Gurobi")
+```
 
 ## Push / pull (Max & Andres)
 
@@ -61,8 +67,8 @@ git push -u origin your-initials/task-a
 
 | File | Role |
 |------|------|
-| `assignment.ipynb` | Full assignment notebook (Tasks A–E) |
-| `Project.toml` | Julia deps (JuMP; Gurobi noted) |
+| `assignment.ipynb` | Assignment notebook: **Layer 1 LP** + Tasks A–E |
+| `Project.toml` | Julia deps (JuMP, HiGHS; Gurobi optional) |
 | `.gitignore` | Julia / Jupyter noise |
 | `README.md` | This file |
 
